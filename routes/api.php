@@ -21,3 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('/kategori', 'KategoriController');
 
 Route::resource('/tiket', 'TiketController');
+
+Route::resource('/transaksi', 'TransaksiController');
+
+
+// Route::get('/transaksi', 'TransaksiController@index');
+// Route::get('/transaksi/{id}', 'TransaksiController@destroy');

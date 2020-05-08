@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Transaksi;
+use App\Http\Resources\TransaksiResource;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class TransaksiController extends Controller
 {
@@ -13,7 +16,7 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        //
+        return TransaksiResource::collection(Transaksi::where('status', false)->latest()->get());
     }
 
     /**
@@ -34,7 +37,9 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $transaksi = Transaksi::create($request->all());
+
+        return response(new TransaksiResource($transaksi), Response::HTTP_CREATED);
     }
 
     /**
@@ -66,9 +71,11 @@ class TransaksiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Transaksi $transaksi)
     {
-        //
+        $transaksi->update($request->all());
+
+        return response('updated', Response::HTTP_CREATED);
     }
 
     /**
@@ -77,8 +84,10 @@ class TransaksiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Transaksi $transaksi)
     {
-        //
+        $transaksi->delete();
+
+        return response('deleted', Response::HTTP_OK);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Model\Kategori;
+use App\Model\Transaksi;
 
 class Tiket extends Model
 {
@@ -20,5 +21,10 @@ class Tiket extends Model
     public function kategori()
     {
       return $this->belongsTo(Kategori::class, 'id_kategori', 'id');
+    }
+
+    public function transaksi()
+    {
+      return $this->hasMany(Transaksi::class, 'id_tiket', 'id');
     }
 }

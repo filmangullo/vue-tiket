@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Model\Tiket;
 
 class Transaksi extends Model
 {
@@ -14,5 +15,10 @@ class Transaksi extends Model
      *
      * @var string
      */
-    protected $table = 'transaksis';
+    protected $guarded = [];
+
+    public function tiket()
+    {
+      return $this->belongsTo(Tiket::class, 'id_tiket', 'id');
+    }
 }

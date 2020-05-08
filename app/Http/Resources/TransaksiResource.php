@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TiketResource extends JsonResource
+class TransaksiResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,12 +15,11 @@ class TiketResource extends JsonResource
     public function toArray($request)
     {
         return [
-          'id'  =>$this->id,
-          'name_kategori' =>$this->kategori->name_kategori,
-          'name_tiket' =>$this->name_tiket,
-          'harga_tiket' =>$this->harga_tiket,
-          'jenis_tiket' =>$this->jenis_tiket,
-          'jumlah_tiket' =>$this->jumlah_tiket,
+          'id' =>$this->id,
+          'name_tiket' =>$this->tiket->name_tiket,
+          'qty' =>$this->qty,
+          'status' =>$this->status,
+          'harga_tiket' =>$this->tiket->harga_tiket,
           // 'created_at' =>$this->created_at
         ];
     }

@@ -48,9 +48,9 @@ class TiketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Tiket $tiket)
     {
-        //
+        return new TiketResource($tiket);
     }
 
     /**
@@ -71,9 +71,11 @@ class TiketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tiket $tiket)
     {
-        //
+        $tiket->update($request->all());
+
+        return response('updated', Response::HTTP_CREATED);
     }
 
     /**
@@ -82,8 +84,10 @@ class TiketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tiket $tiket)
     {
-        //
+        $tiket->delete();
+
+        return response('deleted', Response::HTTP_OK);
     }
 }
