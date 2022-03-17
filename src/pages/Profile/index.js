@@ -1,27 +1,41 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import {StyleSheet, Text, View, Image} from 'react-native';
+import React from 'react';
+import {ProfileDummy} from '../../assets';
+import {ProfileTabSection} from '../../components/molecules';
 
 const Profile = () => {
   return (
-    <View>
-      <View style={styles.photoContainer}>
-            <View style={styles.photoDashed}>
-              <View style={styles.photoContent}>
-                <Text style={styles.textAddPhoto}>Add Photo</Text>
-              </View>
-            </View>
-           </View>
+    <View style={styles.page}>
+      <View style={styles.profilSection}>
+        <View style={styles.photoContainer}>
+          <View style={styles.photoDashed}>
+            <Image source={ProfileDummy} style={styles.photoContent} />
+          </View>
+        </View>
+        <Text style={styles.name}>Filman Gulo</Text>
+        <Text style={styles.email}>filmangullo@filman.com</Text>
+      </View>
+      <View style={styles.content}>
+        <ProfileTabSection />
+      </View>
     </View>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;
 
 const styles = StyleSheet.create({
+  page: {
+    flex: 1,
+  },
+  profilSection: {
+    backgroundColor: '#ffffff',
+    paddingBottom: 26
+  },
   photoContainer: {
     alignItems: 'center',
     marginTop: 26,
-    marginBottom: 16
+    marginBottom: 16,
   },
   photoDashed: {
     width: 110,
@@ -40,10 +54,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
     padding: 24,
   },
-  textAddPhoto: {
-    fontSize: 14,
+  name: {
+    fontSize: 18,
+    fontFamily: 'Poppins-Medium',
+    color: '#020202',
+    textAlign: 'center',
+  },
+  email: {
+    fontSize: 13,
     fontFamily: 'Poppins-Light',
     color: '#8d92a3',
     textAlign: 'center',
   },
-})
+  content: {
+    flex: 1,
+    marginTop: 24,
+  },
+});

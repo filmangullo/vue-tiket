@@ -7,7 +7,9 @@ import HomeTabSection from "./HomeTabSection";
 import HomeWelcome from "./HomeWelcome";
 import ItemListFood from "./ItemListFood";
 import ItemValuePrice from "./ItemValuePrice";
+import ItemListMenu from "./ItemListMenu";
 import OrderTabSection from "./OrderTabSection";
+import ProfileTabSection from "./ProfileTabSection";
 import Rating from "./Rating";
 
 
@@ -22,5 +24,7 @@ export {
     ItemListFood,
     ItemValuePrice,
     OrderTabSection,
+    ProfileTabSection,
+    ItemListMenu,
     Rating
 }
