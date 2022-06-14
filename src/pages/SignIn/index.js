@@ -2,7 +2,9 @@ import {StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {Header} from '../../components/molecules';
 import {Button, Gap, TextInput} from '../../components/atoms';
-import { useForm } from '../../utils';
+import {useForm} from '../../utils';
+import {Icon} from 'react-native-elements';
+import * as Axios from 'axios';
 
 const SignIn = ({navigation}) => {
   // Using Default Hooks
@@ -17,7 +19,14 @@ const SignIn = ({navigation}) => {
 
   const onSubmit = () => {
     console.log('form: ', form);
-  }
+    Axios.post('http://foodmarket.local:8088/api/login', form)
+      .then(response => {
+        console.log('Succes', response);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  };
 
   return (
     <View style={styles.page}>
@@ -27,19 +36,20 @@ const SignIn = ({navigation}) => {
           label="Email Address"
           placeholder="Your email address"
           value={form.email}
-          onChangeText={value => setForm('email',value)}
+          onChangeText={value => setForm('email', value)}
         />
         <Gap height={16} />
         <TextInput
           label="Password"
           placeholder="Your Password"
           value={form.password}
-          onChangeText={value => setForm('password',value)}
+          onChangeText={value => setForm('password', value)}
           secureTextEntry
         />
         <Gap height={24} />
         <Button text="Sign In" onPress={onSubmit} />
         <Gap height={12} />
+
         <Button
           text="Create New Account"
           color="#8d92a3"
