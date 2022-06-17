@@ -3,7 +3,8 @@ import React from 'react';
 import {Header} from '../../components/molecules';
 import {Button, Gap, Select, TextInput} from '../../components/atoms';
 import {useForm} from '../../utils';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
+import * as Axios from 'axios';
 
 const SignUpAddress = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -12,21 +13,24 @@ const SignUpAddress = ({navigation}) => {
     houseNumber: '',
     city: 'Bandung',
   });
-  const dispatch = useDispatch();
-  const onSubmit = () => {
-    console.log('form :', form);
-    dispatch({type: 'SET_ADDRESS', value: form});
-    fetchData();
-    //  navigation.replace('SignUpSuccess')
-  };
+
   const registerReducer = useSelector(state => state.registerReducer);
 
-  const fetchData = () => {
+  const onSubmit = () => {
+    // console.log('form :', form);
     const data = {
       ...form,
       ...registerReducer,
     };
     console.log('data Register : ', data);
+    Axios.post('http://foodmarket.local:8088/api/register', data)
+      .then(res => {
+        console.log('data Register : ', res.data);
+        navigation.replace('SignUpSuccess');
+      })
+      .catch(err => {
+        console.log('Sign Up Erro', err);
+      });
   };
 
   return (

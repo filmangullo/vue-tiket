@@ -16,7 +16,7 @@ export const registerReducer = (state = initStateRegister, action) => {
       name: action.value.name,
       email: action.value.email,
       password: action.value.password,
-      passwordConfirmation: action.value.password,
+      password_confirmation: action.value.password,
     };
   }
   //   if (action.type === 'SET_ADDRESS') {
