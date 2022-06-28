@@ -2,9 +2,11 @@ import {StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
 import React from 'react';
 import {Header} from '../../components/molecules';
 import {Button, Gap, Select, TextInput} from '../../components/atoms';
-import {useForm} from '../../utils';
-import {useSelector} from 'react-redux';
+import {showMessage, useForm} from '../../utils';
+import {useDispatch, useSelector} from 'react-redux';
+
 import * as Axios from 'axios';
+import {actionLoading} from '../../redux/action';
 
 const SignUpAddress = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -14,7 +16,9 @@ const SignUpAddress = ({navigation}) => {
     city: 'Bandung',
   });
 
+  const dispatch = useDispatch();
   const registerReducer = useSelector(state => state.registerReducer);
+  const photoReducer = useSelector(state => state.photoReducer);
 
   const onSubmit = () => {
     // console.log('form :', form);
@@ -23,13 +27,48 @@ const SignUpAddress = ({navigation}) => {
       ...registerReducer,
     };
     console.log('data Register : ', data);
+    console.log('data Photo : ', photoReducer);
+
+    dispatch(actionLoading(true));
     Axios.post('http://foodmarket.local:8088/api/register', data)
       .then(res => {
-        console.log('data Register : ', res.data);
-        navigation.replace('SignUpSuccess');
+        // console.log('data Register : ', res.data);
+        console.log(
+          'data Token',
+          `${res.data.data.token_type} ${res.data.data.access_token}`,
+        );
+        // Function upload photo
+        if (photoReducer.isUploadPhoto) {
+          const forUploadPhoto = new FormData();
+          forUploadPhoto.append('file'.photoReducer);
+          Axios.post(
+            'http://foodmarket.local:8088/api/user/update-profile-photo',
+            forUploadPhoto,
+            {
+              headers: {
+                Authorization: `${res.data.data.token_type} ${res.data.data.access_token}`,
+                'Content-Type': 'multipart/form-data',
+              },
+            },
+          )
+            .then(resUpload => {
+              console.log('upload photo succes : ', resUpload);
+            })
+            .catch(err => {
+              console.log('Upload Error : ', err?.response);
+              showMessage('Upload Photo doesnt success');
+            });
+        }
+        // Endfunction
+
+        showMessage('Register Succes', 'success');
+        dispatch(actionLoading(false));
+        // navigation.replace('SignUpSuccess');
       })
       .catch(err => {
-        console.log('Sign Up Erro', err);
+        // console.log('Sign Up Erro', err.response.data.meta.message);
+        dispatch(actionLoading(false));
+        showMessage(err?.response?.data?.meta?.message);
       });
   };
 

@@ -1,9 +1,18 @@
-import {StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
-import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import React, {useState} from 'react';
 import {Header} from '../../components/molecules';
 import {Button, Gap, TextInput} from '../../components/atoms';
 import {useDispatch, useSelector} from 'react-redux';
-import {useForm} from '../../utils';
+import {showMessage, useForm} from '../../utils';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const SignUp = ({navigation}) => {
   // How to implementation Redux
@@ -15,6 +24,8 @@ const SignUp = ({navigation}) => {
     password: '',
   });
 
+  const [photo, setPhoto] = useState('');
+
   const dispatch = useDispatch();
 
   const onSubmit = () => {
@@ -22,6 +33,38 @@ const SignUp = ({navigation}) => {
     dispatch({type: 'SET_REGISTER', value: form});
 
     navigation.navigate('SignUpAddress');
+  };
+
+  const addPhotos = () => {
+    let options = {
+      saveToPhotos: true,
+      mediaType: 'photo',
+      selectionLimit: 1,
+      quality: 0.5,
+      maxWidth: 250,
+      maxHeight: 250,
+    };
+    launchImageLibrary(options, res => {
+      // console.log(res);
+      if (res.didCancel) {
+        showMessage('User cancelled image picker');
+      } else {
+        // this how to get first array in assets
+        let source = res.assets
+          .filter(element => typeof element !== undefined)
+          .shift();
+        const dataImage = {
+          uri: source.uri,
+          type: source.type,
+          name: source.fileName,
+        };
+
+        setPhoto(source);
+        dispatch({type: 'SET_PHOTO', value: dataImage});
+        dispatch({type: 'SET_UPLOAD_STATUS', value: true});
+        console.log(source);
+      }
+    });
   };
 
   return (
@@ -34,11 +77,17 @@ const SignUp = ({navigation}) => {
         />
         <View style={styles.container}>
           <View style={styles.photoContainer}>
-            <View style={styles.photoDashed}>
-              <View style={styles.photoContent}>
-                <Text style={styles.textAddPhoto}>Add Photo</Text>
+            <TouchableOpacity onPress={addPhotos}>
+              <View style={styles.photoDashed}>
+                {photo ? (
+                  <Image source={photo} style={styles.photoContent} />
+                ) : (
+                  <View style={styles.photoContent}>
+                    <Text style={styles.textAddPhoto}>Add Photo</Text>
+                  </View>
+                )}
               </View>
-            </View>
+            </TouchableOpacity>
           </View>
           <TextInput
             label="Full Name"
@@ -106,6 +155,8 @@ const styles = StyleSheet.create({
     height: 90,
     borderRadius: 90,
     backgroundColor: '#f0f0f0',
+    alignItems: 'center',
+
     padding: 24,
   },
   textAddPhoto: {

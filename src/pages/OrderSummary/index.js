@@ -2,7 +2,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Header, ItemListFood, ItemValuePrice} from '../../components/molecules';
 import {FoodDummy1} from '../../assets';
-import {Button} from '../../components/atoms'
+import {Button} from '../../components/atoms';
 
 const OrderSummary = ({navigation}) => {
   return (
@@ -14,12 +14,22 @@ const OrderSummary = ({navigation}) => {
       />
       <View style={styles.content}>
         <Text style={styles.label}>Item Order</Text>
-        <ItemListFood image={FoodDummy1} type={'order-summary'} name={'Sop Bumil'} price={'480,000'}  items={12} />
+        <ItemListFood
+          image={FoodDummy1}
+          type={'order-summary'}
+          name={'Sop Bumil'}
+          price={'480,000'}
+          items={12}
+        />
         <Text style={styles.label}>Detail Transaction</Text>
-        <ItemValuePrice label="Soup Bumil" value="IDR 18,000"/>
-        <ItemValuePrice label="Driver" value="IDR 10,000"/>
-        <ItemValuePrice label="Tax 10%" value="IDR 1,600"/>
-        <ItemValuePrice label="Total Price" value="IDR 32,600" valueColor="#1abc9c"/>
+        <ItemValuePrice label="Soup Bumil" value="IDR 18,000" />
+        <ItemValuePrice label="Driver" value="IDR 10,000" />
+        <ItemValuePrice label="Tax 10%" value="IDR 1,600" />
+        <ItemValuePrice
+          label="Total Price"
+          value="IDR 32,600"
+          valueColor="#1abc9c"
+        />
       </View>
 
       <View style={styles.content}>
@@ -31,7 +41,10 @@ const OrderSummary = ({navigation}) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Button text="Checkout Now" onPress={() => navigation.replace('OrderSuccess')} />
+        <Button
+          text="Checkout Now"
+          onPress={() => navigation.replace('OrderSuccess')}
+        />
       </View>
     </View>
   );
@@ -44,18 +57,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 24,
     paddingVertical: 16,
-    marginTop: 24
+    marginTop: 24,
   },
   label: {
     fontSize: 14,
     fontFamily: 'Poppins-Regular',
     color: '#020202',
-    marginBottom: 8
+    marginBottom: 8,
   },
 
   buttonContainer: {
     paddingHorizontal: 24,
-    marginTop: 24
-  }
-
+    marginTop: 24,
+  },
 });

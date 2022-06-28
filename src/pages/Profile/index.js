@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   profilSection: {
     backgroundColor: '#ffffff',
-    paddingBottom: 26
+    paddingBottom: 26,
   },
   photoContainer: {
     alignItems: 'center',
